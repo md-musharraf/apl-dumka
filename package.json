@@ -1,0 +1,23 @@
+{
+  "name": "apl-dumka-diagnostics",
+  "version": "1.0.0",
+  "description": "Pathology Lab Landing Page & WhatsApp Booking System for APL Dumka",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server -p 3000 -o",
+    "dev": "npx http-server -p 3000 -o"
+  },
+  "keywords": [
+    "pathology",
+    "lab",
+    "booking",
+    "whatsapp",
+    "dumka",
+    "apl"
+  ],
+  "author": "APL Dumka Team",
+  "license": "ISC",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
