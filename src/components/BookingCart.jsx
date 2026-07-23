@@ -162,6 +162,12 @@ export default function BookingCart({
                         <div className="cart-items-section" style={{ display: "flex" }}>
                             <h4 className="cart-section-title">Selected Tests & Packages</h4>
                             <div className="cart-items-list">
+                                {discountPercentage > 0 && (
+                                    <div className="cart-discount-alert">
+                                        🔥 <strong>{discountPercentage}% Discount Active:</strong> All test prices updated automatically with original vs sale rates.
+                                    </div>
+                                )}
+
                                 {cart.map((item) => (
                                     <div key={item.id} className="cart-item">
                                         <div className="cart-item-info">
@@ -173,7 +179,9 @@ export default function BookingCart({
                                                 } • {item.type.toUpperCase()}
                                             </div>
                                         </div>
-                                        <div className="cart-item-price">₹{item.price}</div>
+                                        <div className="cart-item-price-box">
+                                            <span className="cart-item-price">₹{item.price}</span>
+                                        </div>
                                         <button 
                                             className="btn-remove-item" 
                                             onClick={() => toggleCartItem(item, item.type)}
@@ -188,12 +196,12 @@ export default function BookingCart({
                             {/* Price Calculator */}
                             <div className="cart-totals">
                                 <div className="total-row">
-                                    <span>Base Test Price</span>
+                                    <span>Base Subtotal</span>
                                     <span>₹{baseTotal}</span>
                                 </div>
                                 {isMultiTestDiscountActive && (
                                     <div className="total-row discount-row" style={{ display: "flex" }}>
-                                        <span>Multi-Test Discount (10%)</span>
+                                        <span>Multi-Test Bundle Offer (10%)</span>
                                         <span>-₹{additionalDiscount}</span>
                                     </div>
                                 )}
@@ -254,7 +262,7 @@ export default function BookingCart({
                                     </div>
 
                                     <div className="form-group">
-                                        <label htmlFor="visitType">Sample Collection Type <span class="required-star">*</span></label>
+                                        <label htmlFor="visitType">Sample Collection Type <span className="required-star">*</span></label>
                                         <select 
                                             id="visitType" 
                                             value={visitType}

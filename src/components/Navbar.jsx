@@ -51,6 +51,10 @@ export default function Navbar({
                         <a href="#packages-section" className="nav-link" onClick={(e) => { e.preventDefault(); scrollToSection("packages-section"); }}>Health Packages</a>
                         <a href="#about-section" className="nav-link" onClick={(e) => { e.preventDefault(); scrollToSection("about-section"); }}>Why Choose Us</a>
                         <a href="#contact-section" className="nav-link" onClick={(e) => { e.preventDefault(); scrollToSection("contact-section"); }}>Contact</a>
+                        <a href="/admin" className="nav-link admin-nav-link" onClick={(e) => { e.preventDefault(); window.history.pushState({}, "", "/admin"); window.dispatchEvent(new Event("pushstate")); }}>
+                            <ShieldCheck size={15} style={{ marginRight: "4px", verticalAlign: "middle" }} />
+                            Admin Portal
+                        </a>
                     </nav>
 
                     <div className="header-actions">
@@ -106,6 +110,9 @@ export default function Navbar({
                     <a href="#packages-section" className="mobile-nav-link" onClick={() => handleMobileLinkClick("packages-section")}>Health Packages</a>
                     <a href="#about-section" className="mobile-nav-link" onClick={() => handleMobileLinkClick("about-section")}>Why Choose Us</a>
                     <a href="#contact-section" className="mobile-nav-link" onClick={() => handleMobileLinkClick("contact-section")}>Contact</a>
+                    <a href="/admin" className="mobile-nav-link text-primary" onClick={(e) => { e.preventDefault(); setMobileNavOpen(false); window.history.pushState({}, "", "/admin"); window.dispatchEvent(new Event("pushstate")); }}>
+                        🛡️ Admin Control Panel
+                    </a>
                 </nav>
                 <div className="mobile-nav-actions">
                     <button 

@@ -218,8 +218,8 @@ export default function Home({
                                 <div className="testimonial-user">
                                     <div className="user-avatar">{testi.avatar}</div>
                                     <div>
-                                        <h4 class="user-name">{testi.name}</h4>
-                                        <p class="user-location">{testi.location}</p>
+                                        <h4 className="user-name">{testi.name}</h4>
+                                        <p className="user-location">{testi.location}</p>
                                     </div>
                                 </div>
                             </div>

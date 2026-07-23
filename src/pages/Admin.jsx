@@ -8,7 +8,7 @@ import {
 } from "../services/db";
 import { 
     Lock, Settings, FlaskConical, Gift, LogOut, Plus, 
-    Trash2, Edit, Save, X, Check, ShieldAlert 
+    Trash2, Edit, Save, X, Check, ShieldAlert, Search, Percent, Sparkles 
 } from "lucide-react";
 
 export default function Admin({ showToast }) {
@@ -25,6 +25,10 @@ export default function Admin({ showToast }) {
     const [settings, setSettings] = useState(null);
     const [tests, setTests] = useState([]);
     const [packages, setPackages] = useState([]);
+
+    // Admin Search Filters
+    const [adminTestSearch, setAdminTestSearch] = useState("");
+    const [adminPackageSearch, setAdminPackageSearch] = useState("");
 
     // Form/Modal States for Tests
     const [testModalOpen, setTestModalOpen] = useState(false);
@@ -43,6 +47,32 @@ export default function Admin({ showToast }) {
         parameters: "20+ Parameters", testsIncludedString: "",
         isPopular: false
     });
+
+    // Preset Discount Fast-Switch Handler
+    const applyPresetDiscount = async (perc) => {
+        if (!settings) return;
+        const newBannerText = perc > 0 
+            ? `🔥 Special Offer: Get ${perc}% OFF on all Diagnostic Tests & Health Packages! Free Home Sample Collection in Dumka. 🔥`
+            : "Welcome to Aarogya Health Service Dumka. Quality Pathology & Diagnostics.";
+        
+        const newSettings = {
+            ...settings,
+            discountPercentage: perc,
+            bannerText: newBannerText
+        };
+
+        setSettings(newSettings);
+        try {
+            await updateSettings({
+                discountPercentage: Number(perc),
+                bannerText: newBannerText,
+                whatsappNumber: settings.whatsappNumber
+            });
+            showToast(`Global Discount updated to ${perc}% OFF!`, "check-circle");
+        } catch (e) {
+            showToast("Failed to apply preset discount", "alert-triangle");
+        }
+    };
 
     // Subscribe to Auth and Database changes
     useEffect(() => {
@@ -350,12 +380,91 @@ export default function Admin({ showToast }) {
                 {activeTab === "settings" && settings && (
                     <div className="admin-section-card">
                         <div className="card-header-with-actions">
-                            <h3>Global Store Settings</h3>
+                            <h3>Global Store Settings & Offer Rules</h3>
                             <span className="db-mode-indicator">
                                 {isFirebaseEnabled() ? "Firebase Live Database" : "Local Storage Demo"}
                             </span>
                         </div>
-                        <p className="card-subtitle">Manage discount rates, marquee scrolling promo text, and laboratory routing WhatsApp number.</p>
+                        <p className="card-subtitle">Configure site-wide discount rates, dynamic marquee text, and lab booking contact routes.</p>
+
+                        {/* Quick Discount Presets Selector */}
+                        <div className="admin-preset-discounts-box">
+                            <h4 className="preset-box-title">
+                                <Sparkles size={16} className="text-primary" />
+                                1-Click Fast Discount Presets:
+                            </h4>
+                            <div className="preset-buttons-row">
+                                <button 
+                                    type="button" 
+                                    className={`btn-preset-chip ${Number(settings.discountPercentage) === 0 ? "active" : ""}`}
+                                    onClick={() => applyPresetDiscount(0)}
+                                >
+                                    0% (No Discount)
+                                </button>
+                                <button 
+                                    type="button" 
+                                    className={`btn-preset-chip ${Number(settings.discountPercentage) === 10 ? "active" : ""}`}
+                                    onClick={() => applyPresetDiscount(10)}
+                                >
+                                    10% OFF
+                                </button>
+                                <button 
+                                    type="button" 
+                                    className={`btn-preset-chip highlighted ${Number(settings.discountPercentage) === 15 ? "active" : ""}`}
+                                    onClick={() => applyPresetDiscount(15)}
+                                >
+                                    ⭐ 15% OFF (100 ➔ 85)
+                                </button>
+                                <button 
+                                    type="button" 
+                                    className={`btn-preset-chip ${Number(settings.discountPercentage) === 20 ? "active" : ""}`}
+                                    onClick={() => applyPresetDiscount(20)}
+                                >
+                                    20% OFF
+                                </button>
+                                <button 
+                                    type="button" 
+                                    className={`btn-preset-chip ${Number(settings.discountPercentage) === 25 ? "active" : ""}`}
+                                    onClick={() => applyPresetDiscount(25)}
+                                >
+                                    25% OFF
+                                </button>
+                                <button 
+                                    type="button" 
+                                    className={`btn-preset-chip ${Number(settings.discountPercentage) === 50 ? "active" : ""}`}
+                                    onClick={() => applyPresetDiscount(50)}
+                                >
+                                    50% OFF
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Live Discount Calculator Preview */}
+                        <div className="admin-discount-preview-card">
+                            <div className="preview-header">
+                                <Percent size={18} className="text-primary" />
+                                <strong>Live Pricing Preview Rule ({settings.discountPercentage}% OFF Active):</strong>
+                            </div>
+                            <div className="preview-math-row">
+                                <div className="math-box">
+                                    <span className="math-label">Original Base Price</span>
+                                    <span className="math-val original">₹100</span>
+                                </div>
+                                <div className="math-arrow">➔</div>
+                                <div className="math-box">
+                                    <span className="math-label">Discounted Sale Price</span>
+                                    <span className="math-val sale">
+                                        ₹{Math.round(100 * (1 - Number(settings.discountPercentage || 0) / 100))}
+                                    </span>
+                                </div>
+                                <div className="math-box savings">
+                                    <span className="math-label">Patient Saves</span>
+                                    <span className="math-val save">
+                                        ₹{100 - Math.round(100 * (1 - Number(settings.discountPercentage || 0) / 100))}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
 
                         <form onSubmit={handleSettingsSave} className="settings-form">
                             <div className="form-group">
@@ -370,7 +479,7 @@ export default function Admin({ showToast }) {
                                     placeholder="e.g. 15 for 15% off"
                                     required
                                 />
-                                <span className="input-hint">If set to greater than 0, every test's price on the website will dynamically drop and show a slashed original price. Set to 0 to disable dynamic offers.</span>
+                                <span className="input-hint">If set to greater than 0 (e.g., 15%), every test's price on the website will dynamically recalculate (₹100 ➔ ₹85).</span>
                             </div>
 
                             <div className="form-group">
@@ -412,13 +521,29 @@ export default function Admin({ showToast }) {
                     <div className="admin-section-card">
                         <div className="card-header-with-actions">
                             <div>
-                                <h3>Diagnostic Test Catalog</h3>
-                                <p className="card-subtitle">Manage individual test items, prices, parameters and reports turnaround times.</p>
+                                <h3>Diagnostic Test Catalog ({tests.length})</h3>
+                                <p className="card-subtitle">Manage individual test items, base prices, active discount prices, parameters and reports turnaround times.</p>
                             </div>
                             <button className="btn btn-primary" onClick={openAddTestModal}>
                                 <Plus size={16} style={{ marginRight: "6px" }} />
                                 Add New Test
                             </button>
+                        </div>
+
+                        {/* Search Filter input */}
+                        <div className="admin-search-bar">
+                            <Search size={16} className="search-icon" />
+                            <input 
+                                type="text"
+                                value={adminTestSearch}
+                                onChange={(e) => setAdminTestSearch(e.target.value)}
+                                placeholder="Filter tests by name or category..."
+                            />
+                            {adminTestSearch && (
+                                <button className="clear-search" onClick={() => setAdminTestSearch("")}>
+                                    <X size={14} />
+                                </button>
+                            )}
                         </div>
 
                         <div className="table-responsive">
@@ -428,7 +553,8 @@ export default function Admin({ showToast }) {
                                         <th>Name</th>
                                         <th>Category</th>
                                         <th>Base Price</th>
-                                        <th>Slashed Price</th>
+                                        <th>Sale Price ({settings ? settings.discountPercentage : 0}% OFF)</th>
+                                        <th>MRP Slashed</th>
                                         <th>Turnaround</th>
                                         <th>Params</th>
                                         <th>Popular</th>
@@ -436,27 +562,39 @@ export default function Admin({ showToast }) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {tests.map((test) => (
-                                        <tr key={test.id}>
-                                            <td className="text-bold">{test.name}</td>
-                                            <td><span className="category-badge">{test.category}</span></td>
-                                            <td>₹{test.price}</td>
-                                            <td className="text-muted">₹{test.slashedPrice}</td>
-                                            <td>{test.reportTime}</td>
-                                            <td>{test.parameters}</td>
-                                            <td>{test.isPopular ? <Check size={16} className="text-success" /> : "-"}</td>
-                                            <td>
-                                                <div className="row-actions">
-                                                    <button className="btn-action-edit" onClick={() => openEditTestModal(test)} title="Edit Test">
-                                                        <Edit size={14} />
-                                                    </button>
-                                                    <button className="btn-action-delete" onClick={() => handleTestDelete(test.id, test.name)} title="Delete Test">
-                                                        <Trash2 size={14} />
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                    {tests
+                                        .filter(t => 
+                                            t.name.toLowerCase().includes(adminTestSearch.toLowerCase()) || 
+                                            t.category.toLowerCase().includes(adminTestSearch.toLowerCase())
+                                        )
+                                        .map((test) => {
+                                            const discPerc = Number(settings?.discountPercentage || 0);
+                                            const salePrice = discPerc > 0 ? Math.round(test.price * (1 - discPerc / 100)) : test.price;
+                                            return (
+                                                <tr key={test.id}>
+                                                    <td className="text-bold">{test.name}</td>
+                                                    <td><span className="category-badge">{test.category}</span></td>
+                                                    <td>₹{test.price}</td>
+                                                    <td>
+                                                        <span className="sale-price-badge">₹{salePrice}</span>
+                                                    </td>
+                                                    <td className="text-muted">₹{test.slashedPrice}</td>
+                                                    <td>{test.reportTime}</td>
+                                                    <td>{test.parameters}</td>
+                                                    <td>{test.isPopular ? <Check size={16} className="text-success" /> : "-"}</td>
+                                                    <td>
+                                                        <div className="row-actions">
+                                                            <button className="btn-action-edit" onClick={() => openEditTestModal(test)} title="Edit Test">
+                                                                <Edit size={14} />
+                                                            </button>
+                                                            <button className="btn-action-delete" onClick={() => handleTestDelete(test.id, test.name)} title="Delete Test">
+                                                                <Trash2 size={14} />
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
                                 </tbody>
                             </table>
                         </div>
@@ -468,13 +606,29 @@ export default function Admin({ showToast }) {
                     <div className="admin-section-card">
                         <div className="card-header-with-actions">
                             <div>
-                                <h3>Wellness Health Packages</h3>
+                                <h3>Wellness Health Packages ({packages.length})</h3>
                                 <p className="card-subtitle">Manage bundled packages, included test items, and pricing structures.</p>
                             </div>
                             <button className="btn btn-primary" onClick={openAddPackageModal}>
                                 <Plus size={16} style={{ marginRight: "6px" }} />
                                 Add Package
                             </button>
+                        </div>
+
+                        {/* Search Filter input */}
+                        <div className="admin-search-bar">
+                            <Search size={16} className="search-icon" />
+                            <input 
+                                type="text"
+                                value={adminPackageSearch}
+                                onChange={(e) => setAdminPackageSearch(e.target.value)}
+                                placeholder="Filter health packages by name..."
+                            />
+                            {adminPackageSearch && (
+                                <button className="clear-search" onClick={() => setAdminPackageSearch("")}>
+                                    <X size={14} />
+                                </button>
+                            )}
                         </div>
 
                         <div className="table-responsive">
@@ -484,38 +638,48 @@ export default function Admin({ showToast }) {
                                         <th>Package Name</th>
                                         <th>Parameters Count</th>
                                         <th>Base Price</th>
-                                        <th>Slashed Price</th>
+                                        <th>Sale Price ({settings ? settings.discountPercentage : 0}% OFF)</th>
+                                        <th>MRP Slashed</th>
                                         <th>Tests Included</th>
                                         <th>Popular</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {packages.map((pkg) => (
-                                        <tr key={pkg.id}>
-                                            <td className="text-bold">{pkg.name}</td>
-                                            <td>{pkg.parameters}</td>
-                                            <td>₹{pkg.price}</td>
-                                            <td className="text-muted">₹{pkg.slashedPrice}</td>
-                                            <td className="text-sm">
-                                                <div className="package-tests-summary">
-                                                    {pkg.testsIncluded.slice(0, 3).join(", ")}
-                                                    {pkg.testsIncluded.length > 3 && ` + ${pkg.testsIncluded.length - 3} more`}
-                                                </div>
-                                            </td>
-                                            <td>{pkg.isPopular ? <Check size={16} className="text-success" /> : "-"}</td>
-                                            <td>
-                                                <div className="row-actions">
-                                                    <button className="btn-action-edit" onClick={() => openEditPackageModal(pkg)} title="Edit Package">
-                                                        <Edit size={14} />
-                                                    </button>
-                                                    <button className="btn-action-delete" onClick={() => handlePackageDelete(pkg.id, pkg.name)} title="Delete Package">
-                                                        <Trash2 size={14} />
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                    {packages
+                                        .filter(p => p.name.toLowerCase().includes(adminPackageSearch.toLowerCase()))
+                                        .map((pkg) => {
+                                            const discPerc = Number(settings?.discountPercentage || 0);
+                                            const salePrice = discPerc > 0 ? Math.round(pkg.price * (1 - discPerc / 100)) : pkg.price;
+                                            return (
+                                                <tr key={pkg.id}>
+                                                    <td className="text-bold">{pkg.name}</td>
+                                                    <td>{pkg.parameters}</td>
+                                                    <td>₹{pkg.price}</td>
+                                                    <td>
+                                                        <span className="sale-price-badge">₹{salePrice}</span>
+                                                    </td>
+                                                    <td className="text-muted">₹{pkg.slashedPrice}</td>
+                                                    <td className="text-sm">
+                                                        <div className="package-tests-summary">
+                                                            {pkg.testsIncluded.slice(0, 3).join(", ")}
+                                                            {pkg.testsIncluded.length > 3 && ` + ${pkg.testsIncluded.length - 3} more`}
+                                                        </div>
+                                                    </td>
+                                                    <td>{pkg.isPopular ? <Check size={16} className="text-success" /> : "-"}</td>
+                                                    <td>
+                                                        <div className="row-actions">
+                                                            <button className="btn-action-edit" onClick={() => openEditPackageModal(pkg)} title="Edit Package">
+                                                                <Edit size={14} />
+                                                            </button>
+                                                            <button className="btn-action-delete" onClick={() => handlePackageDelete(pkg.id, pkg.name)} title="Delete Package">
+                                                                <Trash2 size={14} />
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
                                 </tbody>
                             </table>
                         </div>

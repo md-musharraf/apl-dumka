@@ -20,26 +20,42 @@ export default function PackageCatalog({ packages, cart, toggleCartItem, discoun
                         // Dynamic Pricing Calculation
                         let displayedSlashedPrice = pkg.slashedPrice;
                         let displayedCurrentPrice = pkg.price;
+                        let savingsAmount = pkg.slashedPrice - pkg.price;
                         
                         if (discountPercentage > 0) {
                             // Baseline is the original base price
                             displayedSlashedPrice = pkg.price;
                             displayedCurrentPrice = Math.round(pkg.price * (1 - discountPercentage / 100));
+                            savingsAmount = pkg.price - displayedCurrentPrice;
                         }
 
                         return (
                             <div key={pkg.id} className={`package-card ${pkg.isPopular ? "popular" : ""}`} data-id={pkg.id}>
-                                {pkg.isPopular && <div className="package-ribbon">Best Value</div>}
+                                {discountPercentage > 0 ? (
+                                    <div className="package-ribbon" style={{ background: "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)" }}>
+                                        {discountPercentage}% OFF
+                                    </div>
+                                ) : pkg.isPopular ? (
+                                    <div className="package-ribbon">Best Value</div>
+                                ) : null}
+
                                 <div className="package-body">
                                     <div className="package-header">
                                         <h3 className="package-title">{pkg.name}</h3>
                                         <span className="package-parameters">{pkg.parameters}</span>
                                     </div>
                                     <div className="package-price-row">
-                                        <span className="original-price" style={{ fontSize: "1rem" }}>
-                                            ₹{displayedSlashedPrice}
-                                        </span>
-                                        <span className="package-price">₹{displayedCurrentPrice}</span>
+                                        <div className="price-box">
+                                            <div className="price-row-top" style={{ gap: "6px" }}>
+                                                <span className="original-price" style={{ fontSize: "0.95rem" }}>
+                                                    ₹{displayedSlashedPrice}
+                                                </span>
+                                                {savingsAmount > 0 && (
+                                                    <span className="save-tag">Save ₹{savingsAmount}</span>
+                                                )}
+                                            </div>
+                                            <span className="package-price">₹{displayedCurrentPrice}</span>
+                                        </div>
                                     </div>
                                     
                                     <h4 className="package-includes-title">Tests Included:</h4>

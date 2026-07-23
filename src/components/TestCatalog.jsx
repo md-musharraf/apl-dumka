@@ -51,6 +51,7 @@ export default function TestCatalog({ tests, cart, toggleCartItem, discountPerce
                     <div className="search-box">
                         <Search size={18} className="search-icon" />
                         <input 
+                            id="searchInput"
                             type="text" 
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
@@ -88,20 +89,27 @@ export default function TestCatalog({ tests, cart, toggleCartItem, discountPerce
                             // Dynamic Pricing Calculation
                             let displayedSlashedPrice = test.slashedPrice;
                             let displayedCurrentPrice = test.price;
+                            let savingsAmount = test.slashedPrice - test.price;
                             
                             if (discountPercentage > 0) {
-                                // Baseline is the original base price
+                                // Baseline is the original base price (e.g. 100)
                                 displayedSlashedPrice = test.price;
                                 displayedCurrentPrice = Math.round(test.price * (1 - discountPercentage / 100));
+                                savingsAmount = test.price - displayedCurrentPrice;
                             }
 
                             return (
                                 <div key={test.id} className="test-card" data-id={test.id}>
-                                    {test.isPopular && (
+                                    {discountPercentage > 0 ? (
+                                        <span className="discount-badge-ribbon">
+                                            {discountPercentage}% OFF
+                                        </span>
+                                    ) : test.isPopular ? (
                                         <span className="package-ribbon" style={{ top: "10px", right: "-25px", padding: "3px 25px", fontSize: "0.55rem" }}>
                                             Popular
                                         </span>
-                                    )}
+                                    ) : null}
+
                                     <div className="test-card-header">
                                         <span className="test-category-tag">{test.category}</span>
                                         <span className="test-time-tag">
@@ -125,7 +133,12 @@ export default function TestCatalog({ tests, cart, toggleCartItem, discountPerce
 
                                     <div className="test-card-footer">
                                         <div className="price-box">
-                                            <span className="original-price">₹{displayedSlashedPrice}</span>
+                                            <div className="price-row-top">
+                                                <span className="original-price" title="Original Base Price">₹{displayedSlashedPrice}</span>
+                                                {savingsAmount > 0 && (
+                                                    <span className="save-tag">Save ₹{savingsAmount}</span>
+                                                )}
+                                            </div>
                                             <span className="current-price">₹{displayedCurrentPrice}</span>
                                         </div>
                                         <button 
