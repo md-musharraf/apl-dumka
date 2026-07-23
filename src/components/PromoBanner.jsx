@@ -5,10 +5,13 @@ export default function PromoBanner({ bannerText, discountPercentage }) {
 
     return (
         <div className="promo-banner">
-            <div className="promo-banner-content">
-                <span>{bannerText}</span>
-                {/* Repeat for a seamless loop */}
-                <span style={{ paddingLeft: "100px" }}>{bannerText}</span>
+            <div className="promo-banner-track">
+                <div className="promo-banner-content">
+                    <span>{bannerText}</span>
+                    <span>{bannerText}</span>
+                    <span>{bannerText}</span>
+                    <span>{bannerText}</span>
+                </div>
             </div>
         </div>
     );
