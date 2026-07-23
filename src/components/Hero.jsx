@@ -2,7 +2,7 @@ import React from "react";
 import { Sparkles, Search, PhoneCall, Clock, Home, CheckCircle2, UserCheck, Activity } from "lucide-react";
 
 export default function Hero({ scrollToSection, whatsappNumber }) {
-    const defaultMsg = encodeURIComponent("Hello APL Diagnostics, I want to book a test.");
+    const defaultMsg = encodeURIComponent("Hello Aarogya Health Service, I want to book a test.");
     const whatsappURL = `https://api.whatsapp.com/send?phone=${whatsappNumber.replace("+", "")}&text=${defaultMsg}`;
 
     return (
@@ -72,7 +72,7 @@ export default function Hero({ scrollToSection, whatsappNumber }) {
                             {/* Fallback to medical Unsplash graphic if local image fails */}
                             <img 
                                 src="assets/hero_lab_banner.png" 
-                                alt="APL Pathology Lab Dumka" 
+                                alt="Aarogya Pathology Lab Dumka" 
                                 className="hero-image" 
                                 onError={(e) => {
                                     e.target.src = 'https://images.unsplash.com/photo-1579154204601-01588f351167?auto=format&fit=crop&q=80&w=800';

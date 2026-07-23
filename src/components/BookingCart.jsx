@@ -86,7 +86,7 @@ export default function BookingCart({
         }
 
         // Build WhatsApp Message
-        let message = `*APL DIAGNOSTICS & PATHLAB, DUMKA*\n`;
+        let message = `*AAROGYA HEALTH SERVICE & PATHLAB, DUMKA*\n`;
         message += `_New Pathology Booking Request_\n`;
         message += `==============================\n\n`;
         message += `*PATIENT DETAILS:*\n`;
@@ -262,7 +262,7 @@ export default function BookingCart({
                                             required
                                         >
                                             <option value="Home Collection">Free Home Sample Collection</option>
-                                            <option value="Lab Visit">Visit APL Lab (Dumka)</option>
+                                            <option value="Lab Visit">Visit Aarogya Lab (Dumka)</option>
                                         </select>
                                     </div>
 

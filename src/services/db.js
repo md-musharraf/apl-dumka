@@ -185,7 +185,7 @@ const defaultTests = [
 const defaultPackages = [
     {
         id: "pkg_basic",
-        name: "APL Basic Health Checkup",
+        name: "Aarogya Basic Health Checkup",
         price: 999,
         slashedPrice: 2200,
         parameters: "25+ Parameters",
@@ -200,7 +200,7 @@ const defaultPackages = [
     },
     {
         id: "pkg_advanced",
-        name: "APL Advanced Wellness Package",
+        name: "Aarogya Advanced Wellness Package",
         price: 1999,
         slashedPrice: 4500,
         parameters: "52+ Parameters",
@@ -216,7 +216,7 @@ const defaultPackages = [
     },
     {
         id: "pkg_gold",
-        name: "APL Executive Gold Package",
+        name: "Aarogya Executive Gold Package",
         price: 3499,
         slashedPrice: 7900,
         parameters: "75+ Parameters",
@@ -275,14 +275,17 @@ const initMockDB = () => {
     if (!localStorage.getItem("apl_tests")) {
         localStorage.setItem("apl_tests", JSON.stringify(defaultTests));
     }
-    if (!localStorage.getItem("apl_packages")) {
+    // Update existing stored packages if they have old APL names
+    const existingPkgs = localStorage.getItem("apl_packages");
+    if (!existingPkgs || existingPkgs.includes("APL Basic")) {
         localStorage.setItem("apl_packages", JSON.stringify(defaultPackages));
     }
     if (!localStorage.getItem("apl_settings")) {
         localStorage.setItem("apl_settings", JSON.stringify(defaultSettings));
     }
-    if (!localStorage.getItem("apl_admin_user")) {
-        localStorage.setItem("apl_admin_user", JSON.stringify({ email: "admin@apldumka.com", loggedIn: false }));
+    const adminUser = localStorage.getItem("apl_admin_user");
+    if (!adminUser || adminUser.includes("apldumka.com")) {
+        localStorage.setItem("apl_admin_user", JSON.stringify({ email: "admin@aarogyahealthservice.com", loggedIn: false }));
     }
 };
 
@@ -320,13 +323,13 @@ export const loginAdmin = async (email, password) => {
         return userCredential.user;
     } else {
         const admin = JSON.parse(localStorage.getItem("apl_admin_user"));
-        if (email === admin.email && password === "admin123") {
+        if ((email === admin.email || email === "admin@aarogyahealthservice.com" || email === "admin@apldumka.com") && password === "admin123") {
             admin.loggedIn = true;
             localStorage.setItem("apl_admin_user", JSON.stringify(admin));
             window.dispatchEvent(new Event("storage"));
             return { email: admin.email };
         } else {
-            throw new Error("Invalid admin credentials. Use admin@apldumka.com / admin123");
+            throw new Error("Invalid admin credentials. Use admin@aarogyahealthservice.com / admin123");
         }
     }
 };

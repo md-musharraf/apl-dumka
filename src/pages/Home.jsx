@@ -89,7 +89,7 @@ export default function Home({
         },
         {
             question: "Are your reports accepted by all major hospitals and doctors?",
-            answer: "Yes. APL Diagnostics operates under NABL (National Accreditation Board for Testing and Calibration Laboratories) quality guidelines. Our laboratory parameters and reports are verified by MD Pathologists and fully accepted by all medical practitioners, hospitals, and insurance providers nationwide."
+            answer: "Yes. Aarogya Health Service operates under NABL (National Accreditation Board for Testing and Calibration Laboratories) quality guidelines. Our laboratory parameters and reports are verified by MD Pathologists and fully accepted by all medical practitioners, hospitals, and insurance providers nationwide."
         }
     ];
 
@@ -156,10 +156,10 @@ export default function Home({
                         </div>
                     </div>
                     <div className="about-content">
-                        <span className="section-tag">WHY CHOOSE APL</span>
+                        <span className="section-tag">WHY CHOOSE AAROGYA</span>
                         <h2 className="section-title">Dumka's Standard Pathology & Diagnostic Lab</h2>
                         <p className="about-desc">
-                            APL Diagnostics is dedicated to providing high-quality, clinical-grade laboratory diagnostics to patients across Dumka and surrounding areas. Our fully automated setup utilizes world-class testing platforms to guarantee swift, precise, and double-verified results.
+                            Aarogya Health Service is dedicated to providing high-quality, clinical-grade laboratory diagnostics to patients across Dumka and surrounding areas. Our fully automated setup utilizes world-class testing platforms to guarantee swift, precise, and double-verified results.
                         </p>
                         
                         <div className="features-list">
@@ -202,7 +202,7 @@ export default function Home({
                         <span className="section-tag">TESTIMONIALS</span>
                         <h2 className="section-title">What Our Patients Say</h2>
                         <p className="section-subtitle">
-                            Real feedback from families in Dumka who trust APL Diagnostics for their routine health checkups.
+                            Real feedback from families in Dumka who trust Aarogya Health Service for their routine health checkups.
                         </p>
                     </div>
 
@@ -263,7 +263,7 @@ export default function Home({
                 <div className="container contact-container">
                     <div className="contact-info">
                         <span className="section-tag">FIND US</span>
-                        <h2 className="section-title">APL Diagnostics Dumka</h2>
+                        <h2 className="section-title">Aarogya Health Service Dumka</h2>
                         <p className="contact-intro">
                             Visit our state-of-the-art diagnostic center or get in touch with our friendly support desk for bulk bookings, health packages, and clinical consulting.
                         </p>
@@ -293,7 +293,7 @@ export default function Home({
                                 </div>
                                 <div>
                                     <h4>Email Queries</h4>
-                                    <p>booking@apldumkadiagnostics.com</p>
+                                    <p>booking@aarogyahealthservice.com</p>
                                 </div>
                             </div>
                             <div className="contact-detail-item">
@@ -311,10 +311,10 @@ export default function Home({
                         <div className="map-placeholder">
                             <div className="map-glass">
                                 <Map className="map-icon" size={36} />
-                                <h3>APL PathLab Location</h3>
+                                <h3>Aarogya PathLab Location</h3>
                                 <p>Tower Chowk, Bhagalpur Road, Dumka, Jharkhand</p>
                                 <a 
-                                    href="https://maps.google.com/?q=APL+Diagnostics+Tower+Chowk+Dumka+Jharkhand" 
+                                    href="https://maps.google.com/?q=Aarogya+Health+Service+Tower+Chowk+Dumka+Jharkhand" 
                                     target="_blank" 
                                     rel="noopener noreferrer" 
                                     className="btn btn-primary btn-sm"

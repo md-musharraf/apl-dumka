@@ -40,7 +40,7 @@ export default function Navbar({
                             <Microscope size={22} />
                         </div>
                         <div className="logo-text">
-                            <span className="logo-title">APL DIAGNOSTICS</span>
+                            <span className="logo-title">AAROGYA HEALTH SERVICE</span>
                             <span className="logo-sub">PATHLAB & IMAGING • DUMKA</span>
                         </div>
                     </a>

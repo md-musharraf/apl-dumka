@@ -250,7 +250,7 @@ export default function Admin({ showToast }) {
                         <div className="logo-icon logo-icon-footer" style={{ margin: "0 auto 15px" }}>
                             <Lock size={20} />
                         </div>
-                        <h3>APL Dumka Admin Login</h3>
+                        <h3>Aarogya Health Service Admin Login</h3>
                         <p>Authenticate to access the pathology catalog and pricing dashboard.</p>
                     </div>
 
@@ -259,7 +259,7 @@ export default function Admin({ showToast }) {
                             <ShieldAlert size={16} style={{ marginRight: "8px", flexShrink: 0 }} />
                             <span>
                                 Running in <strong>Local Storage Mode</strong>. Credentials: <br />
-                                <code>admin@apldumka.com</code> / <code>admin123</code>
+                                <code>admin@aarogyahealthservice.com</code> / <code>admin123</code>
                             </span>
                         </div>
                     )}
@@ -272,7 +272,7 @@ export default function Admin({ showToast }) {
                                 id="adminEmail"
                                 value={loginEmail}
                                 onChange={(e) => setLoginEmail(e.target.value)}
-                                placeholder="admin@apldumka.com"
+                                placeholder="admin@aarogyahealthservice.com"
                                 required
                             />
                         </div>
@@ -308,7 +308,7 @@ export default function Admin({ showToast }) {
             <header className="admin-dash-header">
                 <div className="container admin-dash-nav">
                     <div className="admin-title">
-                        <h3>APL DIAGNOSTICS</h3>
+                        <h3>AAROGYA HEALTH SERVICE</h3>
                         <span className="badge">Control Center</span>
                     </div>
 

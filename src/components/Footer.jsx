@@ -10,7 +10,7 @@ export default function Footer({ scrollToSection }) {
                         <div className="logo-icon logo-icon-footer">
                             <Microscope size={20} />
                         </div>
-                        <span className="logo-title text-white">APL DIAGNOSTICS</span>
+                        <span className="logo-title text-white">AAROGYA HEALTH SERVICE</span>
                     </div>
                     <p className="footer-desc">
                         Providing certified, high-precision blood testing and medical health screenings for the people of Dumka and Jharkhand. Accurate, rapid, and home-friendly.
@@ -34,7 +34,7 @@ export default function Footer({ scrollToSection }) {
                         <li><a href="#home" onClick={(e) => { e.preventDefault(); scrollToSection("home"); }}>Home Banner</a></li>
                         <li><a href="#tests-section" onClick={(e) => { e.preventDefault(); scrollToSection("tests-section"); }}>Search blood tests</a></li>
                         <li><a href="#packages-section" onClick={(e) => { e.preventDefault(); scrollToSection("packages-section"); }}>Full checkup packages</a></li>
-                        <li><a href="#about-section" onClick={(e) => { e.preventDefault(); scrollToSection("about-section"); }}>Why Choose APL</a></li>
+                        <li><a href="#about-section" onClick={(e) => { e.preventDefault(); scrollToSection("about-section"); }}>Why Choose Aarogya</a></li>
                         <li><a href="#contact-section" onClick={(e) => { e.preventDefault(); scrollToSection("contact-section"); }}>Lab Address & Contact</a></li>
                     </ul>
                 </div>
@@ -64,7 +64,7 @@ export default function Footer({ scrollToSection }) {
             </div>
             <div className="footer-bottom">
                 <div className="container footer-bottom-content">
-                    <p>&copy; {new Date().getFullYear()} APL Diagnostics & PathLab Dumka. All rights reserved.</p>
+                    <p>&copy; {new Date().getFullYear()} Aarogya Health Service & PathLab Dumka. All rights reserved.</p>
                     <p>Designed with medical excellence for Jharkhand.</p>
                 </div>
             </div>
